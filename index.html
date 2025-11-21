@@ -1,5 +1,609 @@
 <!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"><title>Woodridge Robotics</title></head>
-<body><h1>Woodridge Robotics is live!</h1></body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Woodridge Robotics Coop</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #0b1220;
+      --card: #020617;
+      --accent: #fbbf24;
+      --accent-soft: #fef3c7;
+      --text: #f9fafb;
+      --muted: #9ca3af;
+      --border: #1f2937;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #111827 0, #020617 55%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(2, 6, 23, 0.96);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(14px);
+    }
+
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0.5rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    .nav-brand img {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: #020617;
+      padding: 4px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.1rem;
+      font-size: 0.85rem;
+    }
+
+    .nav-links a {
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 1.5rem auto 3rem;
+      padding: 0 1.25rem 3rem;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 2rem;
+      align-items: center;
+      margin-bottom: 2.75rem;
+    }
+
+    .hero-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-logo img {
+      max-width: 260px;
+      width: 100%;
+      filter: drop-shadow(0 0 30px rgba(0,0,0,0.7));
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid rgba(248, 250, 252, 0.16);
+      background: rgba(15,23,42,0.96);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
+
+    .badge span {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 10px #22c55e;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.1rem, 2.9vw + 1rem, 3rem);
+      margin: 0.25rem 0 0.8rem;
+    }
+
+    .hero p.lede {
+      margin: 0 0 1.3rem;
+      color: var(--muted);
+      font-size: 0.98rem;
+      max-width: 34rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.55rem 1.15rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: transform 0.09s ease, box-shadow 0.09s ease,
+        background 0.09s ease, border 0.09s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #f59e0b, #fbbf24);
+      color: #111827;
+      box-shadow: 0 10px 25px rgba(234, 179, 8, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 32px rgba(234, 179, 8, 0.45);
+    }
+
+    .btn-ghost {
+      background: rgba(15,23,42,0.9);
+      color: var(--accent);
+      border-color: rgba(148, 163, 184, 0.5);
+    }
+
+    .btn-ghost:hover {
+      background: #020617;
+    }
+
+    section {
+      margin-bottom: 2.75rem;
+    }
+
+    section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.4rem;
+    }
+
+    section p.section-tagline {
+      margin: 0 0 1.3rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .card {
+      background: radial-gradient(circle at top left, #111827 0, #020617 70%);
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+      padding: 1.1rem 1.25rem 1.2rem;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 0.35rem;
+      font-size: 1.1rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.16rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.55);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    ul {
+      padding-left: 1.1rem;
+      margin-top: 0.25rem;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 1.5rem;
+    }
+
+    .link-list {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+
+    .link-list li {
+      margin-bottom: 0.4rem;
+    }
+
+    .link-list a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.95rem;
+    }
+
+    .link-badge {
+      padding: 0.05rem 0.45rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.6);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+      color: var(--muted);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.2rem 1.25rem 2rem;
+      background: #020617;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    footer .inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    @media (max-width: 800px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-logo {
+        order: -1;
+      }
+      .nav-links {
+        display: none; /* keep nav simple on phones */
+      }
+    }
+
+    @media (max-width: 640px) {
+      .two-col {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <img src="WoodRobot.png" alt="Woodridge Robotics Coop logo" />
+        <span>Woodridge Robotics Coop</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#mission">Mission</a>
+        <a href="#teams">Teams</a>
+        <a href="#community">Community</a>
+        <a href="#connect">Connect</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div>
+        <div class="badge">
+          <span></span>
+          <div>Woodridge • FIRST LEGO League • Bellevue, WA</div>
+        </div>
+        <h1>Small teams. Big ideas. One robotics community.</h1>
+        <p class="lede">
+          Woodridge Robotics Coop connects FIRST LEGO League teams that grow out
+          of <a href="https://woodridge.bsd405.org/" target="_blank" rel="noreferrer">Woodridge Elementary School</a>
+          in Bellevue, WA. We help students, mentors, and families build robots,
+          solve real-world problems, and learn from each other—so new teams
+          don’t have to start from scratch every year.
+        </p>
+        <div class="hero-buttons">
+          <a href="#connect" class="btn btn-primary">Join or Start a Team</a>
+          <a href="#community" class="btn btn-ghost">See our partners</a>
+        </div>
+      </div>
+      <div class="hero-logo">
+        <img src="WoodRobot.png" alt="Woodridge Robotics Coop eagle hugging robot logo" />
+      </div>
+    </section>
+
+    <!-- MISSION -->
+    <section id="mission">
+      <h2>Our Mission</h2>
+      <p class="section-tagline">
+        To grow a lasting robotics community around Woodridge Elementary where
+        new teams launch easily, knowledge is shared, and every student feels
+        part of something bigger than their own team.
+      </p>
+
+      <div class="cards">
+        <article class="card">
+          <div class="pill">
+            <span class="pill-dot"></span> For Students
+          </div>
+          <h3>Learn together, not alone</h3>
+          <p>
+            Teams like BRAIN_bots and AI Eagles practice separately but connect
+            through scrimmages, shared robot tips, and project showcases. Kids
+            see that they are part of a wider community of builders and
+            thinkers, not just one small team.
+          </p>
+          <ul>
+            <li>Joint practice nights and scrimmages</li>
+            <li>Robot game tips, coding help, build ideas</li>
+            <li>Older students mentoring younger teammates</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="pill">
+            <span class="pill-dot"></span> For Coaches &amp; Mentors
+          </div>
+          <h3>Support for new FLL teams</h3>
+          <p>
+            Many Woodridge teams are brand new. The Coop keeps checklists,
+            practice plans, and example code so each new coach doesn’t have to
+            reinvent everything.
+          </p>
+          <ul>
+            <li>Shared starter materials and practice agendas</li>
+            <li>Code and robot designs that carry forward</li>
+            <li>Connections to
+              <a href="https://firstwa.org/" target="_blank" rel="noreferrer">FIRST Washington</a>
+              resources
+            </li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="pill">
+            <span class="pill-dot"></span> For the Community
+          </div>
+          <h3>Part of a bigger pipeline</h3>
+          <p>
+            The Coop builds a bridge from Woodridge Elementary into middle and
+            high school robotics programs, and connects with local PTSA and STEM
+            organizations that care about kids and curiosity.
+          </p>
+          <ul>
+            <li>Visible robotics presence linked to Woodridge</li>
+            <li>On-ramps to middle and high school teams</li>
+            <li>Opportunities for alumni to come back as mentors</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- TEAMS -->
+    <section id="teams">
+      <h2>Our Teams</h2>
+      <p class="section-tagline">
+        Each team has its own coach and identity, but they share resources,
+        mentorship, and events through the Coop.
+      </p>
+
+      <div class="two-col">
+        <article class="card">
+          <div class="pill">
+            <span class="pill-dot"></span> FLL Team • #71279
+          </div>
+          <h3>BRAIN_bots</h3>
+          <p>
+            BRAIN_bots is a Woodridge-based FIRST LEGO League team of 4th–5th
+            graders who love tinkering, experimenting, and asking
+            &ldquo;What if…?&rdquo;
+          </p>
+          <ul>
+            <li>Focus on learning core FLL skills</li>
+            <li>Playful, experimental approach to robot design</li>
+            <li>Working to document code and designs for future teams</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="pill">
+            <span class="pill-dot"></span> FLL Team
+          </div>
+          <h3>AI Eagles</h3>
+          <p>
+            AI Eagles is a new team started by Woodridge families, exploring how
+            robotics and creativity can solve real-world problems while keeping
+            that Woodridge Eagle spirit.
+          </p>
+          <ul>
+            <li>New this season, growing fast</li>
+            <li>Emphasis on teamwork, inclusion, and fun</li>
+            <li>Learning from BRAIN_bots and future Coop teams</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- COMMUNITY & LINKS -->
+    <section id="community">
+      <h2>Connected to Woodridge &amp; the Bellevue community</h2>
+      <p class="section-tagline">
+        Woodridge Robotics Coop is not an official program of the Bellevue
+        School District, but it works closely with school and PTSA partners to
+        support Woodridge students.
+      </p>
+
+      <div class="two-col">
+        <div>
+          <h3>School &amp; PTSA</h3>
+          <ul class="link-list">
+            <li>
+              <a href="https://woodridge.bsd405.org/" target="_blank" rel="noreferrer">
+                <span class="link-badge">School</span>
+                <span>Woodridge Elementary School</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.woodridgeptsa.org/" target="_blank" rel="noreferrer">
+                <span class="link-badge">PTSA</span>
+                <span>Woodridge Elementary PTSA</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.bellevueptsacouncil.com/our-ptas.html" target="_blank" rel="noreferrer">
+                <span class="link-badge">District PTSA</span>
+                <span>Bellevue PTSA Council</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Robotics &amp; STEM Partners</h3>
+          <ul class="link-list">
+            <li>
+              <a href="https://firstwa.org/fll-challenge/" target="_blank" rel="noreferrer">
+                <span class="link-badge">FLL in WA</span>
+                <span>FIRST Washington – FLL Challenge</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.firstlegoleague.org/" target="_blank" rel="noreferrer">
+                <span class="link-badge">Global</span>
+                <span>FIRST LEGO League</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://firstwa.org/" target="_blank" rel="noreferrer">
+                <span class="link-badge">Statewide</span>
+                <span>FIRST Washington</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONNECT -->
+    <section id="connect">
+      <h2>Get involved</h2>
+      <p class="section-tagline">
+        Whether you are a student, parent, teacher, or neighbor, there’s a way
+        to plug in.
+      </p>
+
+      <div class="cards">
+        <article class="card">
+          <h3>Students &amp; Families</h3>
+          <p>
+            Interested in joining BRAIN_bots, AI Eagles, or starting a new team
+            with friends? We can help connect you with coaches and other
+            families.
+          </p>
+          <p>
+            <strong>Email:</strong>
+            <a href="mailto:info@woodridgerobotics.org">info@woodridgerobotics.org</a>
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Coaches &amp; Mentors</h3>
+          <p>
+            New to FIRST LEGO League or returning for another season? The Coop
+            shares practice plans, robot code, and experience so you don’t have
+            to figure it all out alone.
+          </p>
+          <p>
+            Learn more about mentoring with FIRST Washington
+            <a href="https://firstwa.org/mentor/" target="_blank" rel="noreferrer">here</a>.
+          </p>
+        </article>
+
+        <article class="card">
+          <h3>Local partners &amp; sponsors</h3>
+          <p>
+            Businesses and community organizations can support Woodridge teams
+            through sponsorships, in-kind donations, or hosting site visits so
+            students can see real-world STEM in action.
+          </p>
+          <p>
+            <strong>Contact:</strong>
+            <a href="mailto:sponsors@woodridgerobotics.org">sponsors@woodridgerobotics.org</a>
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="inner">
+      <div>
+        &copy; <script>document.write(new Date().getFullYear());</script>
+        Woodridge Robotics Coop. All rights reserved.
+      </div>
+      <div>
+        Not an official program of the Bellevue School District.
+      </div>
+    </div>
+  </footer>
+</body>
 </html>
